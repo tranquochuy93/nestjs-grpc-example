@@ -17,6 +17,7 @@ export class SubscriberService {
         id: 1,
         name: 'Name',
         email: 'email@dgmail.one',
+        phones: [{ number: '123455' }],
       },
     ];
   }

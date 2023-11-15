@@ -9,6 +9,6 @@ async function bootstrap() {
   // const { httpAdapter } = app.get(HttpAdapterHost);
   // app.useGlobalFilters(new ExceptionLoggerFilter(httpAdapter));
 
-  await app.listen(4001);
+  await app.listen(5002);
 }
 bootstrap();
