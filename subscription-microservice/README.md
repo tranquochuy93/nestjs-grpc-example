@@ -1,73 +1,59 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Protocol Buffers
+[Protocol Buffers Documentation](https://protobuf.dev/programming-guides/proto3/)
+### optional: An optional field is in one of two possible states:
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+- the field is set, and contains a value that was explicitly set or parsed from the wire. It will be serialized to the wire.
+- the field is unset, and will return the default value. It will not be serialized to the wire.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- If the default value is not specified for an optional element, a type-specific default value is used instead:
 
-## Description
+  - For strings, the default value is the empty string.
+  - For bytes, the default value is empty bytes.
+  - For bools, the default value is false.
+  - For numeric types, the default value is zero.
+  - For enums, the default value is the first defined enum value.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+```ts
+syntax = "proto3";
+message OptionalValue {
+  optional Corpus corpus = 1;
+  string id = 2;
+  string firstName = 3;
+  optional string lastName = 4;
+  optional int32 age = 5;
+}
 ```
 
-## Running the app
+# What is the gRPC
+[grpc architecture](https://medium.com/@ssudan16/internals-of-grpc-architecture-afae7450ff5b)
+gRPC is an open-source, high-performance, inter-process communication RPC framework built on top of HTTP/2 by Google. It uses Protocol Buffers as the message interchange format which is a platform-neutral, extensible framework for serializing and deserializing structured data.
 
-```bash
-# development
-$ npm run start
+```
+service HealthcheckService {
+  rpc Ping (PingRequest) returns (PingResponse) {}
+}
 
-# watch mode
-$ npm run start:dev
+message PingRequest {
+  string name = 1;
+}
 
-# production mode
-$ npm run start:prod
+message PingResponse {
+  string message = 1;
+}
 ```
 
-## Test
+Above is an example of an IDL which defines a Service HealthCheckService which is basically a collection of remote methods.
 
-```bash
-# unit tests
-$ npm run test
+The service defines a single method Ping which takes PingRequest as Request and returns PingResponse as Response.
 
-# e2e tests
-$ npm run test:e2e
+PingRequest and PingResponse are called Messages which are the data structures exchanged between the client and the server containing a series of name-value pairs called fields.
 
-# test coverage
-$ npm run test:cov
-```
+Each field is associated with a unique number that is used to identify them in the binary format. In the above example,
 
-## Support
+## [Status Code](https://github.com/grpc/grpc/blob/master/doc/statuscodes.md)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Implement gRPC in NestJS
+[Wannago](https://wanago.io/2020/11/30/api-nestjs-microservices-grpc-framework/)
 
-## Stay in touch
+## Trick
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

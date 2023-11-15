@@ -7,15 +7,27 @@ import { CreateSubscriberDto } from './subscriber.dto';
 export class SubscriberController {
   constructor(private readonly subscriberService: SubscriberService) {}
 
-  @GrpcMethod('SubscriberService', 'AddSubscriber')
+  @GrpcMethod('SubscriberService', 'addSubscriber')
   async addSubscriberGrpcMethod(createSubscriberDto: CreateSubscriberDto) {
     return this.subscriberService.addSubscriber(createSubscriberDto);
   }
 
-  @GrpcMethod('SubscriberService', 'GetAllSubscribers')
+  @GrpcMethod('SubscriberService', 'getAllSubscribers')
   async getAllSubscribersGrpcMethod() {
     return {
       data: await this.subscriberService.getAllSubscriber(),
     };
+  }
+
+  @GrpcMethod('SubscriberService', 'returnOptionalValue')
+  async returnOptionalValue() {
+    return {
+      id: 1,
+    };
+  }
+
+  @GrpcMethod('SubscriberService', 'returnNullableValue')
+  async returnNullableValue() {
+    return { response: undefined };
   }
 }

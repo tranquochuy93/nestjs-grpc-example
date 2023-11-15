@@ -9,9 +9,9 @@ service SubscriberService {
 message GetAllSubscribersParams {}
 
 message Subscriber {
-  int32 id = 1;
-  string email = 2;
-  string name = 3;
+  oneof bar {
+    int32 value = 1;
+  }
 }
 
 message CreateSubscriberDto {
