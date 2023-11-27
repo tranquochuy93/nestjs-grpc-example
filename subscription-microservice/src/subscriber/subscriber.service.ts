@@ -12,13 +12,14 @@ export class SubscriberService {
   }
 
   async getAllSubscriber() {
-    return [
-      {
+    const res = []
+    for (let i = 0; i < 100000; i++) {
+      res.push({
         id: 1,
-        name: 'Name',
-        email: 'email@dgmail.one',
-        phones: [{ number: '123455' }],
-      },
-    ];
+        name: 'Name11111111adfadsfdsafdafsalfld;sầdfadsfdsfsdfsfsdfdsfsfdsfsdfsdf',
+        email: 'email@dgmail.onesdfsfsdfsfsfsdfsdfsfdsfsdfsfsdfdf',
+      });
+    }
+    return res;
   }
 }
