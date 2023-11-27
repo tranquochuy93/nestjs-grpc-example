@@ -1,17 +1,26 @@
 syntax = "proto3";
+import "google/protobuf/empty.proto";
 package subscribers;
 
 service SubscriberService {
-  rpc GetAllSubscribers (GetAllSubscribersParams) returns (SubscribersResponse) {}
-  rpc AddSubscriber (CreateSubscriberDto) returns (Subscriber) {}
+  rpc getAllSubscribers (GetAllSubscribersParams) returns (SubscribersResponse) {}
+  rpc addSubscriber (CreateSubscriberDto) returns (Subscriber) {}
+  rpc returnOptionalValue (google.protobuf.Empty) returns (OptionalValue) {}
+  rpc returnNullableValue (google.protobuf.Empty) returns (NullableValue) {}
 }
 
 message GetAllSubscribersParams {}
 
+message Organization {
+  string name = 1;
+  repeated string lang = 2;
+}
+
 message Subscriber {
-  oneof bar {
-    int32 value = 1;
-  }
+  int32 id = 1;
+  string email = 2;
+  string name = 3;
+  repeated Organization organizations = 4;
 }
 
 message CreateSubscriberDto {
@@ -21,4 +30,27 @@ message CreateSubscriberDto {
 
 message SubscribersResponse {
   repeated Subscriber data = 1;
+}
+
+message OptionalValue {
+  optional Corpus corpus = 1;
+  string id = 2;
+  string firstName = 3;
+  optional string lastName = 4;
+  optional int32 age = 5 [default = 10];
+}
+
+enum Corpus {
+  CORPUS_UNSPECIFIED = 0;
+  CORPUS_UNIVERSAL = 1;
+  CORPUS_WEB = 2;
+  CORPUS_IMAGES = 3;
+  CORPUS_LOCAL = 4;
+  CORPUS_NEWS = 5;
+  CORPUS_PRODUCTS = 6;
+  CORPUS_VIDEO = 7;
+}
+
+message NullableValue {
+  OptionalValue response = 1;
 }

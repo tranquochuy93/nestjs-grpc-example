@@ -11,15 +11,16 @@ service SubscriberService {
 
 message GetAllSubscribersParams {}
 
-message Phone {
-  string number = 1;
+message Organization {
+  string name = 1;
+  repeated string lang = 2;
 }
 
 message Subscriber {
   int32 id = 1;
   string email = 2;
   string name = 3;
-  repeated Phone phone = 4;
+  repeated Organization organizations = 4;
 }
 
 message CreateSubscriberDto {

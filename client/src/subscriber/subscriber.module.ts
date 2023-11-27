@@ -11,34 +11,21 @@ import { join } from 'path';
     {
       provide: 'SUBSCRIBER_SERVICE',
       useFactory: (configService: ConfigService) => {
-        // ClientProxyFactory.create({
-        //   transport: Transport.TCP,
-        //   options: {
-        //     host: configService.get('SUBSCRIBER_SERVICE_HOST'),
-        //     port: configService.get('SUBSCRIBER_SERVICE_PORT'),
-        //   },
-        // }),
-        // const user = configService.get('RABBITMQ_USER');
-        // const password = configService.get('RABBITMQ_PASSWORD');
-        // const host = configService.get('RABBITMQ_HOST');
-        // const queueName = configService.get('RABBITMQ_QUEUE_NAME');
-
-        // return ClientProxyFactory.create({
-        //   transport: Transport.RMQ,
-        //   options: {
-        //     urls: [`amqp://${user}:${password}@${host}`],
-        //     queue: queueName,
-        //     queueOptions: {
-        //       durable: true,
-        //     },
-        //   },
-        // });
         return ClientProxyFactory.create({
           transport: Transport.GRPC,
           options: {
             package: 'subscribers',
             protoPath: join(process.cwd(), 'src/subscriber/subscribers.proto'),
             url: configService.get('GRPC_CONNECTION_URL'),
+            loader: {
+              arrays: true,
+            },
+            maxReceiveMessageLength: 2 * 1024 * 1024 * 1024,
+            // maxSendMessageLength: 2 * 1024 * 1024 * 1024,
+            channelOptions: {
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              'grpc.default_compression_algorithm': 2,
+            },
           },
         });
       },

@@ -36,6 +36,16 @@ async function bootstrap() {
       package: 'subscribers',
       protoPath: join(process.cwd(), 'src/subscriber/subscribers.proto'),
       url: configService.get('GRPC_CONNECTION_URL'),
+      loader: {
+        arrays: true,
+      },
+      // maxReceiveMessageLength: 2 * 1024 * 1024 * 1024,
+      // maxSendMessageLength: 2 * 1024 * 1024 * 1024,
+      channelOptions: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'grpc.default_compression_algorithm': 2,
+        'grpc.default_compression_level': 2,
+      },
     },
   });
 
