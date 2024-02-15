@@ -1,4 +1,4 @@
-### Debug
+2### Debug
 In grpc-js, a "call" is represented by multiple objects that are responsible for different parts of making the request. The "Created child" logs are just each object creating the next object in the chain. The subchannel call is the lowest level object, interacting directly with HTTP/2 streams.
 
 ### Compression
